@@ -9,9 +9,7 @@ export class EmployeesController {
 
     getEmployees = async (req: Request, res: Response) => {
         try {
-            console.log("hola estoy en controllers");
             const all = await this.getEmployeesUseCase.allEmployees();
-            console.log("hola soy lo que contiene all", all);
             res.status(200).json(all);
         } catch (error) {
             res.status(500).json({ error: "Internal server error" });
