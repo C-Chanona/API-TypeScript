@@ -12,6 +12,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeesRepository = void 0;
 const Pooler_1 = require("../database/Pooler");
 class EmployeesRepository {
+    getByIdEmploye(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const database = new Pooler_1.Pooler();
+            return yield new Promise((resolve, reject) => {
+                const queryEmployee = `SELECT * FROM employees_exe.employees WHERE id_employee = ${id}`;
+                database.pool.query(queryEmployee, (error, success) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(success);
+                    }
+                });
+            });
+        });
+    }
     getEmployees() {
         return __awaiter(this, void 0, void 0, function* () {
             const database = new Pooler_1.Pooler();
@@ -33,7 +49,6 @@ class EmployeesRepository {
             const database = new Pooler_1.Pooler();
             return yield new Promise((resolve, reject) => {
                 const queryEmployee = `INSERT INTO employees_exe.employees(name,email,isManager) VALUES ('${name}', '${email}', ${isManager})`;
-                //const queryDatas = [name, email, isManager];
                 database.pool.query(queryEmployee, (error, success) => {
                     if (error) {
                         reject(error);

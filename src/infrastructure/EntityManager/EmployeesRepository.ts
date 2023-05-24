@@ -4,6 +4,20 @@ import { Pooler } from "../database/Pooler";
 import { QueryError } from "mysql2";
 
 export class EmployeesRepository implements IEmployeesRepository {
+    
+    async getByIdEmploye(id: string): Promise<Employees | null> {
+        const database = new Pooler();
+        return await new Promise((resolve, reject) =>{
+            const queryEmployee = `SELECT * FROM employees_exe.employees WHERE id_employee = ${id}`;
+            database.pool.query(queryEmployee, (error: QueryError, success: Employees) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(success);
+                }
+            })
+        })
+    }
 
     async getEmployees(): Promise<Employees[] | null> {
         const database = new Pooler();

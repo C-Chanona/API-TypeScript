@@ -12,15 +12,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeesController = void 0;
 class EmployeesController {
     //Recibe una instancia del caso de uso correspondiente para poder usar sus metodos
-    constructor(getEmployeesUseCase, newEmployee) {
+    constructor(getEmployeesUseCase, newEmployee, getById) {
         this.getEmployeesUseCase = getEmployeesUseCase;
         this.newEmployee = newEmployee;
+        this.getById = getById;
         this.getEmployees = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("hola estoy en controllers");
                 const all = yield this.getEmployeesUseCase.allEmployees();
-                console.log("hola soy lo que contiene all", all);
                 res.status(200).json(all);
+            }
+            catch (error) {
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
+        this.getEmployeeById = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { idEmployee } = req.params;
+                const oneEmployee = yield this.getById.oneEmployee(idEmployee);
+                res.status(200).json(oneEmployee);
             }
             catch (error) {
                 res.status(500).json({ error: "Internal server error" });
